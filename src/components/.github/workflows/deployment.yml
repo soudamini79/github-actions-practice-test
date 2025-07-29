@@ -22,7 +22,7 @@ jobs:
       name: Test the code
       needs: run-linters
       runs-on: ubuntu-latest
-        steps:
+      steps:
         - name: get code from repository
           uses: actions/checkout@v3
         - name: Setup nodejs
@@ -37,7 +37,7 @@ jobs:
       name: Deploy the code
       needs: test-code
       runs-on: ubuntu-latest
-        steps:
+      steps:
         - name: get code from repository
           uses: actions/checkout@v3
         - name: Setup nodejs
@@ -47,6 +47,4 @@ jobs:
         - name: Install dependencies
           run: npm ci
         - name: Deploy code
-          run: |
-          echo "Deploying code"
-          echo "Deployment done"
+          run: echo "Deploying code"
