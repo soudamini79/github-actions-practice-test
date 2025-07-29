@@ -1,0 +1,52 @@
+name: Deploy application
+on: [ push, workflow_dispatch ]
+jobs:
+    run-linters:
+      name: Run Linter
+      runs-on: ubuntu-latest
+      steps:
+        - name: get code from repository
+          uses: actions/checkout@v3
+        - name: Setup nodejs
+          uses: actions/setup-node@v3
+          with:
+            node-version: 18
+        - name: Install dependencies
+          run: npm ci
+        - name: Run Linter
+          uses: wearerequired/lint-action@v2
+          with:
+            eslint: true
+            prettier: true
+    test-code:
+      name: Test the code
+      needs: run-linters
+      runs-on: ubuntu-latest
+        steps:
+        - name: get code from repository
+          uses: actions/checkout@v3
+        - name: Setup nodejs
+          uses: actions/setup-node@v3
+          with:
+            node-version: 18
+        - name: Install dependencies
+          run: npm ci
+        - name: Run test
+          run: npm test
+    deploy:
+      name: Deploy the code
+      needs: test-code
+      runs-on: ubuntu-latest
+        steps:
+        - name: get code from repository
+          uses: actions/checkout@v3
+        - name: Setup nodejs
+          uses: actions/setup-node@v3
+          with:
+            node-version: 18
+        - name: Install dependencies
+          run: npm ci
+        - name: Deploy code
+          run: |
+          echo "Deploying code"
+          echo "Deployment done"
